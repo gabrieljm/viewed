@@ -1,0 +1,60 @@
+{% extends "template.html" %}
+{% block conteudo %}
+  <form action="{{ url_for('criar') }}" name="form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+      <figure class="thumb col-md-4">
+          <img class="img-responsive" src="{{ url_for('imagem', nome_arquivo='capa_padrao.jpg') }}">
+          <figcaption>
+              <label class="fileContainer">
+                  Mudar capa
+                  <input type="file" name="arquivo" accept=".jpg">
+              </label>
+          </figcaption>
+      </figure>
+
+      <fieldset>
+          <div class="form-group">
+              <label for="titulo">Titulo</label>
+              <input type="text" id="titulo" name="titulo" class="form-control">
+          </div>
+          <div class="form-group">
+              <label for="genero">Gênero</label>
+              <input type="text" id="genero" name="genero" class="form-control">
+          </div>
+          <div class="form-group">
+              <label for="ano">Ano</label>
+              <input type="number" id="ano" name="ano" class="form-control">
+          </div>
+          <div class="form-group">
+              <label for="sinopse">Sinopse</label>
+              <input type="text" id="sinopse" name="sinopse" class="form-control">
+          </div>
+          <div class="form-group">
+              <label for="tipo">Tipo</label>
+              <input type="text" id="tipo" name="tipo" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
+          <a class="btn btn-danger" href="{{ url_for('index') }}">Voltar</a>
+      </fieldset>
+  </form>
+
+<script>
+    function validateForm() {
+        var titulo = document.forms['form']['titulo'].value;
+        if (titulo == '') {
+            alert('Preencha o título!');
+            return false;
+        }
+        var genero = document.forms['form']['genero'].value;
+        if (genero == '') {
+            alert('Preencha o gênero!');
+            return false;
+        }
+        var arquivo = document.forms['form']['arquivo'].value;
+        if (arquivo == '') {
+            alert('Envie um arquivo!');
+            return false;
+        }
+    }
+</script>
+
+{% endblock %}
