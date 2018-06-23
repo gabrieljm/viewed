@@ -11,7 +11,10 @@ usuario_dao = UsuarioDao(db)
 @app.route('/')
 def index():
     lista = midia_dao.listar()
-    return render_template('lista.html', titulo='Mídias', midias=lista)
+    nome_imagem = {}
+    for item in lista:
+        nome_imagem[item.id] = recupera_imagem(item.id)
+    return render_template('lista.html', titulo='Mídias', midias=lista, capa_midia=nome_imagem or 'capa_padrao.jpg')
 
 
 @app.route('/novo')

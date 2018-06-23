@@ -1,39 +1,16 @@
 {% extends "template.html" %}
 {% block conteudo %}
     <a class="btn btn-primary" href="{{ url_for('novo') }}">Nova Mídia</a>
-    <!--<table class="table table-striped table-responsive table-bordered">-->
-        <!--<thead class="thead-default">-->
-            <!--<tr>-->
-                <!--<th>Título</th>-->
-                <!--<th>Gênero</th>-->
-                <!--<th>Ano</th>-->
-                <!--<th>Sinopse</th>-->
-                <!--<th>Tipo</th>-->
-                <!--<th>Ações</th>-->
-            <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
+    <div class="card-deck">
         {% for midia in midias %}
-            <div class="card" style="width: 18rem;">
-                <!--<img class="card-img-top" src="..." alt="Card image cap">-->
-                <div class="card-body">
-                    <h5 class="card-title">{{ midia.titulo }}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
-                </div>
+            <div class="card media-card" style="background-color: black;">
+                <img class="card-img-top" src="{{ url_for('imagem', nome_arquivo=capa_midia[midia.id]) }}" alt="Card image cap">
             </div>
-            <!--<tr>-->
-                <!--<td>{{ midia.titulo }}</td>-->
-                <!--<td>{{ midia.genero }}</td>-->
-                <!--<td>{{ midia.ano }}</td>-->
-                <!--<td>{{ midia.sinopse }}</td>-->
-                <!--<td>{{ midia.tipo }}</td>-->
-                <!--<td>-->
-                    <!--<a href="{{ url_for('editar', id=midia.id) }}">Editar</a>-->
-                    <!--<a href="{{ url_for('deletar', id=midia.id) }}">Deletar</a>-->
-                <!--</td>-->
-            <!--</tr>-->
         {% endfor %}
-        <!--</tbody>-->
-    <!--</table>-->
+    </div>
+<style>
+    .media-card {
+        max-width: 200px;
+    }
+</style>
 {% endblock %}

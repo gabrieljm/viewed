@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="container">
+        <div class="row justify-content-center">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <ul id="messages" class="list_unstyled">
@@ -22,7 +23,7 @@
         <div class="page-header">
             <h1>{{ titulo }}</h1>
         </div>
-
+</div>
         {% block conteudo %}{% endblock %}
 
     <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>

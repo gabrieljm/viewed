@@ -1,8 +1,10 @@
 {% extends "template.html" %}
 {% block conteudo %}
   <form action="{{ url_for('criar') }}" name="form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-      <figure class="thumb col-md-4">
-          <img class="img-responsive" src="{{ url_for('imagem', nome_arquivo='capa_padrao.jpg') }}">
+      <div class="container">
+          <div class="row">
+      <figure class=" thumb col-sm capa-midia">
+          <img class="col-sm img-responsive" src="{{ url_for('imagem', nome_arquivo='capa_padrao.jpg') }}">
           <figcaption>
               <label class="fileContainer">
                   Mudar capa
@@ -11,7 +13,7 @@
           </figcaption>
       </figure>
 
-      <fieldset>
+      <fieldset class="col-sm">
           <div class="form-group">
               <label for="titulo">Titulo</label>
               <input type="text" id="titulo" name="titulo" class="form-control">
@@ -35,6 +37,8 @@
           <button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
           <a class="btn btn-danger" href="{{ url_for('index') }}">Voltar</a>
       </fieldset>
+              </div>
+          </div>
   </form>
 
 <script>
@@ -56,5 +60,15 @@
         }
     }
 </script>
+
+<style>
+    .capa-midia {
+        max-width: 384px;
+    }
+
+    img {
+        max-width: 330px;
+    }
+</style>
 
 {% endblock %}
