@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Jogoteca</title>
+    <title>Viewed</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
 </head>
-<body>
+<body class="app-body">
     <div class="container">
         <div class="row justify-content-center">
         {% with messages = get_flashed_messages() %}
@@ -30,4 +30,35 @@
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
     </div>
 </body>
+
+<style>
+    .app-body {
+        background-color: #23272a;
+    }
+    h1 {
+        color: #99aab5;
+    }
+    .botao {
+        color: #ffffff;
+        background-color: #7289da;
+        border-color: #7289da;
+    }
+    .botao:hover {
+        background-color: #7289da;
+        border-color: #ffffff;
+    }
+    input {
+        background: #2c2f33 !important;
+        border-color: #2c2f33 !important;
+        color: #99aab5 !important;
+    }
+    input:focus {
+        border-color: #7289da !important;
+        box-shadow: 0 0 0 0 !important
+    }
+    label {
+        color: #99aab5;
+    }
+</style>
+
 </html>

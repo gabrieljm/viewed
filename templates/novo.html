@@ -3,7 +3,7 @@
   <form action="{{ url_for('criar') }}" name="form" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
       <div class="container">
           <div class="row">
-      <figure class=" thumb col-sm capa-midia">
+      <figure class="thumb col-sm capa-midia">
           <img class="col-sm img-responsive" src="{{ url_for('imagem', nome_arquivo='capa_padrao.jpg') }}">
           <figcaption>
               <label class="fileContainer">
@@ -34,8 +34,8 @@
               <label for="tipo">Tipo</label>
               <input type="text" id="tipo" name="tipo" class="form-control">
           </div>
-          <button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
-          <a class="btn btn-danger" href="{{ url_for('index') }}">Voltar</a>
+          <button type="submit" class="btn btn-primary btn-salvar botao">Salvar</button>
+          <a class="btn btn-dark float-right" href="{{ url_for('index') }}">Voltar</a>
       </fieldset>
               </div>
           </div>

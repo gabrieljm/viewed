@@ -60,9 +60,9 @@ def atualizar():
     sinopse = request.form['sinopse']
     tipo = request.form['tipo']
     midia = Midia(titulo, genero, ano, sinopse, tipo, id=request.form['id'])
+    arquivo = request.files.get('arquivo')
 
-    if request.files['arquivo']:
-        arquivo = request.files['arquivo']
+    if arquivo:
         upload_path = app.config['UPLOAD_PATH']
         timestamp = time.time()
         deleta_arquivo(midia.id)
