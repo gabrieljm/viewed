@@ -30,8 +30,8 @@ def criar():
     genero = request.form['genero']
     ano = request.form['ano']
     sinopse = request.form['sinopse']
-    tipo = request.form['tipo']
-    midia = Midia(titulo, genero, ano, sinopse, tipo)
+    temporadas = request.form['temporadas']
+    midia = Midia(titulo, genero, ano, sinopse, temporadas)
     midia = midia_dao.salvar(midia)
 
     if request.files['arquivo']:
@@ -58,8 +58,8 @@ def atualizar():
     genero = request.form['genero']
     ano = request.form['ano']
     sinopse = request.form['sinopse']
-    tipo = request.form['tipo']
-    midia = Midia(titulo, genero, ano, sinopse, tipo, id=request.form['id'])
+    temporadas = request.form['temporadas']
+    midia = Midia(titulo, genero, ano, sinopse, temporadas, id=request.form['id'])
     arquivo = request.files.get('arquivo')
 
     if arquivo:

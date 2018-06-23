@@ -6,13 +6,13 @@ class Usuario:
         self.tipo = tipo
 
 class Midia:
-    def __init__(self, titulo, genero, ano, sinopse, tipo, id=None):
+    def __init__(self, titulo, genero, ano, sinopse, temporadas, id=None):
         self.id = id
         self.titulo = titulo
         self.genero = genero
         self.ano = ano
         self.sinopse = sinopse
-        self.tipo = tipo
+        self.temporadas = temporadas
 
 class Temporada:
     def __init__(self, id, midiaId):

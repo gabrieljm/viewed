@@ -18,7 +18,7 @@ CREATE TABLE midia (
     genero varchar(100) NOT NULL,
     ano int(4) NOT NULL,
     sinopse varchar(4000) NOT NULL,
-    tipo varchar(1) NOT NULL,
+    temporadas int(11) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -32,6 +32,7 @@ CREATE TABLE temporada (
 CREATE TABLE episodio (
     id int(11) NOT NULL AUTO_INCREMENT,
     temporadaId int(11) NOT NULL,
+    nome varchar(100),
     PRIMARY KEY (id, temporadaId),
     FOREIGN KEY (temporadaId) REFERENCES temporada(id)
 );

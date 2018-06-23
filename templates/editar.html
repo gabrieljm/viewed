@@ -2,45 +2,94 @@
 {% block conteudo %}
   <form action="{{ url_for('atualizar') }}" method="post" enctype="multipart/form-data">
       <div class="container">
-          <div class="row">
-      <figure class="thumb col-sm capa-midia">
-          <img class="col-sm img-responsive" src="{{ url_for('imagem', nome_arquivo=capa_midia) }}">
-          <figcaption>
-              <label class="fileContainer">
-                  Mudar capa
-                  <input type="file" name="arquivo" accept=".jpg">
-              </label>
-          </figcaption>
-      </figure>
+          <div class="row" style="margin-bottom: 10px;">
+              <figure class="thumb col-sm capa-midia">
+                  <img class="col-sm img-responsive" src="{{ url_for('imagem', nome_arquivo=capa_midia) }}">
+                  <figcaption>
+                      <label class="fileContainer">
+                          Mudar capa
+                          <input type="file" name="arquivo" accept=".jpg">
+                      </label>
+                  </figcaption>
+              </figure>
 
-      <fieldset class="col-sm">
-          <input type="hidden" name="id" value="{{ midia.id }}">
-          <div class="form-group">
-              <label for="titulo">Título</label>
-              <input type="text" id="titulo" name="titulo" class="form-control" value="{{ midia.titulo }}">
+              <fieldset class="col-sm">
+                  <input type="hidden" name="id" value="{{ midia.id }}">
+                  <div class="form-group">
+                      <label for="titulo">Título</label>
+                      <input type="text" id="titulo" name="titulo" class="form-control" value="{{ midia.titulo }}">
+                  </div>
+                  <div class="form-group">
+                      <label for="genero">Gênero</label>
+                      <input type="text" id="genero" name="genero" class="form-control" value="{{ midia.genero }}">
+                  </div>
+                  <div class="form-group">
+                      <label for="ano">Ano</label>
+                      <input type="number" id="ano" name="ano" class="form-control" value="{{ midia.ano }}">
+                  </div>
+                  <div class="form-group">
+                      <label for="sinopse">Sinopse</label>
+                      <input type="text" id="sinopse" name="sinopse" class="form-control" value="{{ midia.sinopse }}">
+                  </div>
+                  <div class="form-group">
+                      <label for="temporadas">Temporadas</label>
+                      <input type="number" id="temporadas" name="temporadas" class="form-control" value="{{ midia.temporadas }}">
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-salvar botao">Salvar</button>
+                  <a class="btn btn-danger" href="{{ url_for('deletar', id=midia.id) }}">Remover</a>
+                  <a class="btn btn-dark float-right" href="{{ url_for('index') }}">Voltar</a>
+              </fieldset>
           </div>
-          <div class="form-group">
-              <label for="genero">Gênero</label>
-              <input type="text" id="genero" name="genero" class="form-control" value="{{ midia.genero }}">
+
+          <h3 style="margin-bottom: 20px;">Temporadas</h3>
+          <div class="row">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item">
+                      <a class="nav-link active temp-tab" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">1</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link temp-tab" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">2</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link temp-tab" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">3</a>
+                  </li>
+              </ul>
           </div>
-          <div class="form-group">
-              <label for="ano">Ano</label>
-              <input type="number" id="ano" name="ano" class="form-control" value="{{ midia.ano }}">
-          </div>
-          <div class="form-group">
-              <label for="sinopse">Sinopse</label>
-              <input type="text" id="sinopse" name="sinopse" class="form-control" value="{{ midia.sinopse }}">
-          </div>
-          <div class="form-group">
-              <label for="tipo">Tipo</label>
-              <input type="text" id="tipo" name="tipo" class="form-control" value="{{ midia.tipo }}">
-          </div>
-          <button type="submit" class="btn btn-primary btn-salvar botao">Salvar</button>
-          <a class="btn btn-danger" href="{{ url_for('deletar', id=midia.id) }}">Remover</a>
-          <a class="btn btn-dark float-right" href="{{ url_for('index') }}">Voltar</a>
-      </fieldset>
+          <div class="row">
+              <div class="tab-content" id="myTabContent" style="width: 100%;">
+                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                      <table class="table table-sm table-hover table-dark">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Título</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Mark</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>Jacob</td>
+                            </tr>
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>Larry the Bird</td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                      setsetset
+                  </div>
+                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                      setsetsetset
+                  </div>
               </div>
           </div>
+      </div>
   </form>
 
 <style>
@@ -50,6 +99,13 @@
 
     img {
         max-width: 330px;
+    }
+    td {
+        text-align: left;
+    }
+    .temp-tab {
+        background: #2c2f33 !important;
+        color: 	#99aab5 !important;
     }
 </style>
 
