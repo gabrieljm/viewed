@@ -6,9 +6,21 @@
     <title>Viewed</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 <body class="app-body">
+    <ul class="nav nav-fill nav-bar">
+      <li class="nav-item nav-logo">
+        <a class="nav-link nav-logo-content" href="{{ url_for('index') }}"><i class="fas fa-eye fa-2x nav-logo-title"></i><h5 class="nav-logo-title">Viewed</h5></a>
+      </li>
+      <li class="nav-item nav-user">
+        <span class="nav-link nav-username">Olá {{ session['nome_usuario'] }}</span>
+      </li>
+      <li class="nav-item nav-user">
+        <a class="nav-link nav-logout" href="{{ url_for('logout') }}">Logout</a>
+      </li>
+    </ul>
     <div class="container">
         <div class="row justify-content-center">
         {% with messages = get_flashed_messages() %}
@@ -38,6 +50,7 @@
 <style>
     .app-body {
         background-color: #23272a;
+        padding-top: 0;
     }
     h1, h3, h5 {
         color: #99aab5;
@@ -62,6 +75,39 @@
     }
     label {
         color: #99aab5;
+    }
+    .nav-bar {
+        background: #2c2f33;
+        margin-bottom: 20px;
+        height: 70px;
+    }
+    .nav-logo {
+        width: 70%;
+    }
+    .nav-logo-content {
+        padding-left: 43%;
+        padding-top: 5px;
+    }
+    .nav-logo-title {
+        color: #7289da;
+        font-weight: bold;
+    }
+    .nav-user {
+        width: 15%;
+        color: #99aab5;
+        padding-top: 15px;
+    }
+    .nav-username {
+        float: right;
+        margin-right: 0;
+        color: #99aab5;
+    }
+    .nav-logout {
+        float: left;
+        color: #99aab5;
+    }
+    .nav-logout:hover {
+        color: #ffffff;
     }
 </style>
 

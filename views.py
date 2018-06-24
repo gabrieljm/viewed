@@ -11,11 +11,16 @@ usuario_dao = UsuarioDao(db)
 
 @app.route('/')
 def index():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
     lista = midia_dao.listar()
     nome_imagem = {}
     for item in lista:
         nome_imagem[item.id] = recupera_imagem(item.id)
-    return render_template('lista.html', titulo='Mídias', midias=lista, capa_midia=nome_imagem or 'capa_padrao.jpg')
+
+    if session['tipo_usuario'] == 'A':
+        return render_template('lista.html', titulo='Mídias', midias=lista, capa_midia=nome_imagem or 'capa_padrao.jpg')
+    return render_template('listaUser.html', titulo='Mídias', midias=lista, capa_midia=nome_imagem or 'capa_padrao.jpg')
 
 
 @app.route('/novo')
@@ -127,17 +132,23 @@ def autenticar():
     if usuario:
         if usuario.senha == request.form['senha']:
             session['usuario_logado'] = usuario.login
+            session['nome_usuario'] = usuario.nome
+            session['tipo_usuario'] = usuario.tipo
             flash(usuario.nome + ' logou com sucesso!')
-            proxima_pagina = request.form['proxima']
-            return redirect(proxima_pagina)
+            return redirect(url_for('index'))
+        else:
+            flash('Senha incorreta!')
+            return redirect(url_for('login'))
     else:
-        flash('Não logado, tente denovo!')
+        flash('Usuário inexistente!')
         return redirect(url_for('login'))
 
 
 @app.route('/logout')
 def logout():
     session['usuario_logado'] = None
+    session['nome_usuario'] = None
+    session['tipo_usuario'] = None
     flash('Nenhum usuário logado!')
     return redirect(url_for('index'))
 

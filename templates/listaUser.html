@@ -1,0 +1,28 @@
+{% extends "template.html" %}
+{% block conteudo %}
+    <div class="card-deck">
+        {% for midia in midias %}
+            <a href="{{ url_for('editar', id=midia.id) }}">
+            <div class="card media-card">
+                <img class="card-img-top card-capa" src="{{ url_for('imagem', nome_arquivo=capa_midia[midia.id]) }}" alt="Card image cap">
+                <div class="card-footer">
+                    <!--<small class="text-muted">Last updated 3 mins ago</small>-->
+                </div>
+            </div>
+                </a>
+        {% endfor %}
+    </div>
+<style>
+    .media-card {
+        max-width: 200px;
+        background-color: #2c2f33;
+        margin: 20px !important;
+    }
+    .media-card:hover {
+        border-color: #7289da;
+    }
+    .card-capa {
+        height: 300px;
+    }
+</style>
+{% endblock %}
