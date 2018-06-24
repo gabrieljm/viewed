@@ -87,12 +87,12 @@
                           </thead>
                           <tbody>
                             {% for episodio in temporadas[i-1] %}
-                            <tr data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">
+                            <tr data-toggle="modal" data-target="#exampleModal{{ episodio.id }}" style="cursor: pointer;">
                               <th scope="row">{{ episodio.id }}</th>
                               <td>{{ episodio.nome }}</td>
                             </tr>
 
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal{{ episodio.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content app-body">
                                   <div class="modal-header modal-border">
@@ -126,6 +126,25 @@
                           {% endfor %}
                           </tbody>
                       </table>
+
+                      <h5>Novo episódio</h5>
+                      <form action="{{ url_for('criarEpisodio') }}" method="post">
+                        <fieldset class="col-sm">
+                            <input type="hidden" name="midiaId" value="{{ midia.id }}">
+                            <input type="hidden" name="temporadaId" value="{{ i }}">
+                            <div class="row">
+                              <div class="form-group col-sm-2">
+                                  <label for="novoId">#</label>
+                                  <input type="number" id="novoId" name="id" class="form-control">
+                              </div>
+                              <div class="form-group col-sm-10">
+                                  <label for="novoNome">Título</label>
+                                  <input type="text" id="novoNome" name="nome" class="form-control">
+                              </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-salvar botao">Salvar</button>
+                        </fieldset>
+                      </form>
                   </div>
                   {% endfor %}
               </div>

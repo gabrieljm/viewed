@@ -79,6 +79,17 @@ def atualizar():
     return redirect(url_for('index'))
 
 
+@app.route('/criarEpisodio', methods=['POST',])
+def criarEpisodio():
+    midiaId = request.form['midiaId']
+    temporadaId = request.form['temporadaId']
+    id = request.form['id']
+    nome = request.form['nome']
+    episodio = Episodio(midiaId, temporadaId, id, nome)
+    episodio_dao.criar(episodio)
+    return redirect(url_for('editar', id=episodio.midiaId))
+
+
 @app.route('/atualizarEpisodio', methods=['POST',])
 def atualizarEpisodio():
     midiaId = request.form['midiaId']
@@ -86,7 +97,6 @@ def atualizarEpisodio():
     id = request.form['id']
     nome = request.form['nome']
     episodio = Episodio(midiaId, temporadaId, id, nome)
-    print(episodio)
     episodio_dao.alterar(episodio)
     return redirect(url_for('editar', id=episodio.midiaId))
 
