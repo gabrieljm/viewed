@@ -101,6 +101,13 @@ def atualizarEpisodio():
     return redirect(url_for('editar', id=episodio.midiaId))
 
 
+@app.route('/deletarEpisodio/<string:midiaId>/<string:temporadaId>/<string:id>')
+def deletarEpisodio(midiaId, temporadaId, id):
+    episodio_dao.deletar(midiaId, temporadaId, id)
+    flash('O episódio foi removido com sucesso!')
+    return redirect(url_for('editar', id=midiaId))
+
+
 @app.route('/deletar/<string:id>')
 def deletar(id):
     midia_dao.deletar(id)

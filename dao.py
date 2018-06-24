@@ -9,7 +9,7 @@ SQL_CRIA_MIDIA = 'INSERT into midia (titulo, genero, ano, sinopse, temporadas) v
 SQL_BUSCA_EPISODIOS = 'SELECT midiaId, temporadaId, id, nome FROM episodio WHERE midiaId = %s AND temporadaId = %s'
 SQL_CRIA_EPISODIO = 'INSERT into episodio (midiaId, temporadaId, id, nome) values (%s, %s, %s, %s)'
 SQL_ATUALIZA_EPISODIO = 'UPDATE episodio SET id=%s, nome=%s WHERE midiaId=%s AND temporadaId=%s'
-SQL_DELETA_EPISODIO = 'DELETE FROM episodio where midiaId=%s AND temporadaId=%s AND id=%s'
+SQL_DELETA_EPISODIO = 'DELETE FROM episodio where midiaId = %s AND temporadaId = %s AND id = %s'
 SQL_EPISODIO_POR_ID = 'SELECT nome FROM episodio WHERE midiaId=%s AND temporadaId=%s AND id=%s'
 
 
@@ -99,7 +99,7 @@ class EpisodioDao:
         return Episodio(midiaId, temporadaId, id, tupla[0])
 
     def deletar(self, midiaId, temporadaId, id):
-        self.__db.connection.cursor().execute(SQL_DELETA_MIDIA, (midiaId, temporadaId, id,))
+        self.__db.connection.cursor().execute(SQL_DELETA_EPISODIO, (midiaId, temporadaId, id,))
         self.__db.connection.commit()
 
 

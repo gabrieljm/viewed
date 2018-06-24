@@ -117,6 +117,7 @@
                                               </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary btn-salvar botao">Salvar</button>
+                                            <a class="btn btn-danger float-right" href="{{ url_for('deletarEpisodio', midiaId=episodio.midiaId, temporadaId=episodio.temporadaId, id=episodio.id) }}">Remover</a>
                                         </fieldset>
                                     </form>
                                   </div>
