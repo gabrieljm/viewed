@@ -42,42 +42,23 @@
           </div>
      </div>
   </form>
+
     <div class="container">
           <h3 style="margin-bottom: 20px;">Temporadas</h3>
           <div class="row">
               <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  {% for i in range(1, midia.temporadas+1): %}
                   <li class="nav-item">
-                      <a class="nav-link active temp-tab" id="s1-tab" data-toggle="tab" href="#s1" role="tab" aria-controls="s1" aria-selected="true">1</a>
-                  </li>
-                  {% for i in range(2, midia.temporadas+1): %}
-                  <li class="nav-item">
-                      <a class="nav-link temp-tab" id="s{{ i }}-tab" data-toggle="tab" href="#s{{ i }}" role="tab" aria-controls="s{{ i }}" aria-selected="false">{{ i }}</a>
+                      <a class="nav-link temp-tab {% if i==1 %}active{% endif %}" id="s{{ i }}-tab" data-toggle="tab" href="#s{{ i }}" role="tab" aria-controls="s{{ i }}" aria-selected="{% if i==1 %}true{% else %}false{% endif %}">{{ i }}</a>
                   </li>
                   {% endfor %}
               </ul>
           </div>
+
           <div class="row">
               <div class="tab-content" id="myTabContent" style="width: 100%;">
-                  <div class="tab-pane fade show active" id="s1" role="tabpanel" aria-labelledby="s1-tab">
-                      <table class="table table-sm table-hover table-dark">
-                          <thead>
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">Título</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for episodio in temporadas[0] %}
-                            <tr>
-                              <th scope="row">{{ episodio.id }}</th>
-                              <td>{{ episodio.nome }}</td>
-                            </tr>
-                          {% endfor %}
-                          </tbody>
-                      </table>
-                  </div>
-                  {% for i in range(2, midia.temporadas): %}
-                  <div class="tab-pane fade" id="s{{ i }}" role="tabpanel" aria-labelledby="s{{ i }}-tab">
+                  {% for i in range(1, midia.temporadas+1): %}
+                  <div class="tab-pane fade {% if i==1 %}show active{% endif %}" id="s{{ i }}" role="tabpanel" aria-labelledby="s{{ i }}-tab">
                       <table class="table table-sm table-hover table-dark">
                           <thead>
                             <tr>
@@ -87,12 +68,12 @@
                           </thead>
                           <tbody>
                             {% for episodio in temporadas[i-1] %}
-                            <tr data-toggle="modal" data-target="#exampleModal{{ episodio.id }}" style="cursor: pointer;">
+                            <tr data-toggle="modal" data-target="#exampleModal-{{ episodio.temporadaId }}-{{ episodio.id }}" style="cursor: pointer;">
                               <th scope="row">{{ episodio.id }}</th>
                               <td>{{ episodio.nome }}</td>
                             </tr>
 
-                            <div class="modal fade" id="exampleModal{{ episodio.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal-{{ episodio.temporadaId }}-{{ episodio.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                               <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content app-body">
                                   <div class="modal-header modal-border">
@@ -109,7 +90,7 @@
                                             <div class="row">
                                               <div class="form-group col-sm-2">
                                                   <label for="id">#</label>
-                                                  <input type="number" id="id" name="id" class="form-control" value="{{ episodio.id }}">
+                                                  <input readonly type="number" id="id" name="id" class="form-control" value="{{ episodio.id }}">
                                               </div>
                                               <div class="form-group col-sm-10">
                                                   <label for="nome">Título</label>
@@ -117,7 +98,7 @@
                                               </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary btn-salvar botao">Salvar</button>
-                                            <a class="btn btn-danger float-right" href="{{ url_for('deletarEpisodio', midiaId=episodio.midiaId, temporadaId=episodio.temporadaId, id=episodio.id) }}">Remover</a>
+                                            <a class="btn btn-danger float-right" href="{{ url_for('deletarEpisodio', midiaId=midia.id, temporadaId=i, id=episodio.id) }}">Remover</a>
                                         </fieldset>
                                     </form>
                                   </div>
