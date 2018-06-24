@@ -40,24 +40,25 @@
                   <a class="btn btn-dark float-right" href="{{ url_for('index') }}">Voltar</a>
               </fieldset>
           </div>
-
+     </div>
+  </form>
+    <div class="container">
           <h3 style="margin-bottom: 20px;">Temporadas</h3>
           <div class="row">
               <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <li class="nav-item">
-                      <a class="nav-link active temp-tab" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">1</a>
+                      <a class="nav-link active temp-tab" id="s1-tab" data-toggle="tab" href="#s1" role="tab" aria-controls="s1" aria-selected="true">1</a>
                   </li>
+                  {% for i in range(2, midia.temporadas+1): %}
                   <li class="nav-item">
-                      <a class="nav-link temp-tab" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">2</a>
+                      <a class="nav-link temp-tab" id="s{{ i }}-tab" data-toggle="tab" href="#s{{ i }}" role="tab" aria-controls="s{{ i }}" aria-selected="false">{{ i }}</a>
                   </li>
-                  <li class="nav-item">
-                      <a class="nav-link temp-tab" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">3</a>
-                  </li>
+                  {% endfor %}
               </ul>
           </div>
           <div class="row">
               <div class="tab-content" id="myTabContent" style="width: 100%;">
-                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <div class="tab-pane fade show active" id="s1" role="tabpanel" aria-labelledby="s1-tab">
                       <table class="table table-sm table-hover table-dark">
                           <thead>
                             <tr>
@@ -66,31 +67,70 @@
                             </tr>
                           </thead>
                           <tbody>
+                            {% for episodio in temporadas[0] %}
                             <tr>
-                              <th scope="row">1</th>
-                              <td>Mark</td>
+                              <th scope="row">{{ episodio.id }}</th>
+                              <td>{{ episodio.nome }}</td>
                             </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>Jacob</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>Larry the Bird</td>
-                            </tr>
+                          {% endfor %}
                           </tbody>
                       </table>
                   </div>
-                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                      setsetset
+                  {% for i in range(2, midia.temporadas): %}
+                  <div class="tab-pane fade" id="s{{ i }}" role="tabpanel" aria-labelledby="s{{ i }}-tab">
+                      <table class="table table-sm table-hover table-dark">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Título</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for episodio in temporadas[i-1] %}
+                            <tr data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">
+                              <th scope="row">{{ episodio.id }}</th>
+                              <td>{{ episodio.nome }}</td>
+                            </tr>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content app-body">
+                                  <div class="modal-header modal-border">
+                                    <h5 class="modal-title" id="exampleModalLabel">Editar episódio</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form action="{{ url_for('atualizarEpisodio') }}" method="post">
+                                        <fieldset class="col-sm">
+                                            <input type="hidden" name="midiaId" value="{{ episodio.midiaId }}">
+                                            <input type="hidden" name="temporadaId" value="{{ episodio.temporadaId }}">
+                                            <div class="row">
+                                              <div class="form-group col-sm-2">
+                                                  <label for="id">#</label>
+                                                  <input type="number" id="id" name="id" class="form-control" value="{{ episodio.id }}">
+                                              </div>
+                                              <div class="form-group col-sm-10">
+                                                  <label for="nome">Título</label>
+                                                  <input type="text" id="nome" name="nome" class="form-control" value="{{ episodio.nome }}">
+                                              </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-salvar botao">Salvar</button>
+                                        </fieldset>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          {% endfor %}
+                          </tbody>
+                      </table>
                   </div>
-                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                      setsetsetset
-                  </div>
+                  {% endfor %}
               </div>
           </div>
-      </div>
-  </form>
+    </div>
 
 <style>
     .capa-midia {
@@ -106,6 +146,9 @@
     .temp-tab {
         background: #2c2f33 !important;
         color: 	#99aab5 !important;
+    }
+    .modal-border {
+        border-color: #2c2f33;
     }
 </style>
 

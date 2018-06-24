@@ -20,9 +20,11 @@ class Temporada:
         self.midiaId = midiaId
 
 class Episodio:
-    def __init__(self, id, temporadaId):
-        self.id = id
+    def __init__(self, midiaId, temporadaId, id, nome):
+        self.midiaId = midiaId
         self.temporadaId = temporadaId
+        self.id = id
+        self.nome = nome
 
 class Favorito:
     def __init__(self, midiaId, usuarioId):

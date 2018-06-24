@@ -1,11 +1,12 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
-from models import Midia
-from dao import MidiaDao, UsuarioDao
+from models import Midia, Episodio
+from dao import MidiaDao, EpisodioDao, UsuarioDao
 import time
 from helpers import deleta_arquivo, recupera_imagem
 from viewed import db, app
 
 midia_dao = MidiaDao(db)
+episodio_dao = EpisodioDao(db)
 usuario_dao = UsuarioDao(db)
 
 @app.route('/')
@@ -48,8 +49,14 @@ def editar(id):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('editar')))
     midia = midia_dao.busca_por_id(id)
+    temporadas = []
+
+    for temporadaId in range(1, midia.temporadas):
+        episodios = episodio_dao.listar(id, temporadaId)
+        temporadas.append(episodios)
+
     nome_imagem = recupera_imagem(id)
-    return render_template('editar.html', titulo='Editando Mídia', midia=midia, capa_midia=nome_imagem or 'capa_padrao.jpg')
+    return render_template('editar.html', titulo='Editando Mídia', midia=midia, temporadas=temporadas, capa_midia=nome_imagem or 'capa_padrao.jpg')
 
 
 @app.route('/atualizar', methods=['POST',])
@@ -70,6 +77,18 @@ def atualizar():
 
     midia_dao.salvar(midia)
     return redirect(url_for('index'))
+
+
+@app.route('/atualizarEpisodio', methods=['POST',])
+def atualizarEpisodio():
+    midiaId = request.form['midiaId']
+    temporadaId = request.form['temporadaId']
+    id = request.form['id']
+    nome = request.form['nome']
+    episodio = Episodio(midiaId, temporadaId, id, nome)
+    print(episodio)
+    episodio_dao.alterar(episodio)
+    return redirect(url_for('editar', id=episodio.midiaId))
 
 
 @app.route('/deletar/<string:id>')
