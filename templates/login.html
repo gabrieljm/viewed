@@ -3,11 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Jogoteca</title>
+    <title>Viewed</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
   </head>
   <body>
-    <div class="container">
+    <div class="logo">
+        <i class="fas fa-eye fa-3x nav-logo"></i>
+        <h1 class="nav-logo-title">Viewed</h1>
+    </div>
+    <div class="container app-body">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <ul id="messages" class="list_unstyled">
@@ -18,13 +25,68 @@
             {% endif %}
         {% endwith %}
 
-        <h1>Faça seu login</h1>
+        <h1>Login</h1>
         <form method="POST" action="{{ url_for('autenticar') }}">
             <input type="hidden" name="proxima" value="{{ proxima or url_for('index') }}" />
-            <p><label>Nome de usuário:</label> <input class="form-control" type="text" name="usuario" required></p>
-            <p><label>Senha:</label> <input class="form-control" type="password" name="senha" required></p>
-            <p><button class="btn btn-primary" type="submit">Entrar</button></p>
+            <p><label>Usuário</label> <input class="form-control" type="text" name="usuario" required></p>
+            <p><label>Senha</label> <input class="form-control" type="password" name="senha" required></p>
+            <p><button class="btn btn-primary botao" type="submit">Entrar</button></p>
         </form>
     </div>
 </body>
+<style>
+    body {
+        background-color: #23272a;
+    }
+    .app-body {
+        background-color: #23272a;
+        width: 400px;
+        margin: 5% auto 0;
+        border: 1px solid #2c2f33;
+    }
+    h1, h3, h5 {
+        color: #99aab5;
+        text-align: center;
+    }
+    label {
+        color: #99aab5;
+        text-align: center;
+        width: 100%;
+    }
+    .botao {
+        color: #ffffff;
+        background-color: #7289da;
+        border-color: #7289da;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .botao:hover {
+        background-color: #7289da;
+        border-color: #ffffff;
+    }
+    input {
+        background: #2c2f33 !important;
+        border-color: #2c2f33 !important;
+        color: #99aab5 !important;
+        text-align: center;
+    }
+    input:focus, textarea:focus {
+        border-color: #7289da !important;
+        box-shadow: 0 0 0 0 !important
+    }
+    .nav-logo {
+        color: #7289da;
+        display: inline-block;
+        margin-top: 50px;
+        width: 100%;
+        text-align: center;
+    }
+    .nav-logo-title {
+        color: #7289da;
+        font-weight: bold;
+    }
+    .logo {
+
+    }
+</style>
 </html>

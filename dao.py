@@ -1,4 +1,4 @@
-from models import Usuario, Midia, Temporada, Episodio, Favorito, Visto
+from models import Usuario, Midia, Episodio, Favorito, Visto
 
 SQL_DELETA_MIDIA = 'DELETE from midia where id = %s'
 SQL_MIDIA_POR_ID = 'SELECT * from midia where id = %s'
@@ -11,6 +11,11 @@ SQL_CRIA_EPISODIO = 'INSERT into episodio (midiaId, temporadaId, id, nome) value
 SQL_ATUALIZA_EPISODIO = 'UPDATE episodio SET nome=%s WHERE midiaId=%s AND temporadaId=%s and id=%s'
 SQL_DELETA_EPISODIO = 'DELETE FROM episodio where midiaId = %s AND temporadaId = %s AND id = %s'
 SQL_EPISODIO_POR_ID = 'SELECT nome FROM episodio WHERE midiaId=%s AND temporadaId=%s AND id=%s'
+SQL_CRIA_VISTO = 'INSERT INTO visto (usuarioId, midiaId, temporadaId, episodioId) values (%s, %s, %s, %s)'
+SQL_BUSCA_VISTO = 'SELECT * FROM visto WHERE usuarioId=%s AND midiaId=%s AND temporadaId=%s AND episodioId=%s'
+SQL_BUSCA_VISTO_POR_TEMPORADA = 'SELECT * FROM visto WHERE usuarioId=%s AND midiaId=%s AND temporadaId=%s'
+SQL_BUSCA_VISTO_POR_MIDIA = 'SELECT usuarioId, midiaId, temporadaId, episodioId FROM visto WHERE usuarioId=%s AND midiaId=%s'
+SQL_DELETA_VISTO = 'DELETE FROM visto WHERE usuarioId=%s AND midiaId=%s AND temporadaId=%s AND episodioId=%s'
 
 
 class MidiaDao:
@@ -103,6 +108,46 @@ class EpisodioDao:
         self.__db.connection.commit()
 
 
+class VistoDao:
+    def __init__(self, db):
+        self.__db = db
+
+    def marcar_visto(self, visto):
+        cursor = self.__db.connection.cursor()
+
+        cursor.execute(SQL_BUSCA_VISTO, (
+            visto.usuarioId,
+            visto.midiaId,
+            visto.temporadaId,
+            visto.episodioId
+        ))
+        vistoExiste = cursor.fetchone()
+        if vistoExiste:
+            cursor.execute(SQL_DELETA_VISTO, (
+                visto.usuarioId,
+                visto.midiaId,
+                visto.temporadaId,
+                visto.episodioId
+            ))
+        else:
+            cursor.execute(SQL_CRIA_VISTO, (
+                visto.usuarioId,
+                visto.midiaId,
+                visto.temporadaId,
+                visto.episodioId
+            ))
+        self.__db.connection.commit()
+
+    def buscarPorMidia(self, usuarioId, midiaId):
+        cursor = self.__db.connection.cursor()
+        cursor.execute(SQL_BUSCA_VISTO_POR_MIDIA, (
+            usuarioId,
+            midiaId
+        ))
+        vistos = traduz_vistos(cursor.fetchall())
+        return vistos
+
+
 class UsuarioDao:
     def __init__(self, db):
         self.__db = db
@@ -125,6 +170,12 @@ def traduz_episodios(episodios):
     def cria_episodio_com_tupla(tupla):
         return Episodio(tupla[0], tupla[1], tupla[2], tupla[3])
     return list(map(cria_episodio_com_tupla, episodios))
+
+
+def traduz_vistos(vistos):
+    def cria_visto_com_tupla(tupla):
+        return Visto(tupla[0], tupla[1], tupla[2], tupla[3])
+    return list(map(cria_visto_com_tupla, vistos))
 
 
 def traduz_usuario(tupla):

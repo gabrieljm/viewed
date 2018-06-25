@@ -1,0 +1,110 @@
+{% extends "template.html" %}
+{% block conteudo %}
+  <div class="container">
+      <div class="row" style="margin-bottom: 10px;">
+          <figure class="thumb col-sm capa-midia">
+              <img class="col-sm img-responsive" src="{{ url_for('imagem', nome_arquivo=capa_midia) }}">
+          </figure>
+
+          <fieldset class="col-sm">
+              <div class="form-group">
+                  <label for="genero">Gênero</label>
+                  <input disabled type="text" id="genero" name="genero" class="form-control" value="{{ midia.genero }}">
+              </div>
+              <div class="form-group">
+                  <label for="ano">Ano</label>
+                  <input disabled type="number" id="ano" name="ano" class="form-control" value="{{ midia.ano }}">
+              </div>
+              <div class="form-group">
+                  <label for="sinopse">Sinopse</label>
+                  <textarea disabled type="text" id="sinopse" name="sinopse" class="form-control">{{ midia.sinopse }}</textarea>
+              </div>
+              <div class="form-group">
+                  <label for="temporadas">Temporadas</label>
+                  <input disabled type="number" id="temporadas" name="temporadas" class="form-control" value="{{ midia.temporadas }}">
+              </div>
+              <a class="btn btn-dark float-right" href="{{ url_for('index') }}">Voltar</a>
+          </fieldset>
+      </div>
+ </div>
+
+    <div class="container">
+          <h3 style="margin-bottom: 20px;">Temporadas</h3>
+          <div class="row">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  {% for i in range(1, midia.temporadas+1): %}
+                  <li class="nav-item">
+                      <a class="nav-link temp-tab {% if i==1 %}active{% endif %}" id="s{{ i }}-tab" data-toggle="tab" href="#s{{ i }}" role="tab" aria-controls="s{{ i }}" aria-selected="{% if i==1 %}true{% else %}false{% endif %}">{{ i }}</a>
+                  </li>
+                  {% endfor %}
+              </ul>
+          </div>
+
+          <div class="row">
+              <div class="tab-content" id="myTabContent" style="width: 100%;">
+                  {% for i in range(1, midia.temporadas+1): %}
+                  <div class="tab-pane fade {% if i==1 %}show active{% endif %}" id="s{{ i }}" role="tabpanel" aria-labelledby="s{{ i }}-tab">
+                      <table class="table table-sm table-hover table-dark">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Título</th>
+                              <th scope="col">Visto</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for episodio in temporadas[i-1] %}
+                            <tr>
+                              <th scope="row">{{ episodio.id }}</th>
+                              <td>{{ episodio.nome }}</td>
+                              <td>
+                                  <a href="{{ url_for('visto', usuarioId=session['usuario_logado'], midiaId=episodio.midiaId, temporadaId=episodio.temporadaId, id=episodio.id) }}">
+                                      <i id="i-{{ episodio.temporadaId }}-{{ episodio.id }}" class="fas fa-eye visto"></i>
+                                      {% for visto in vistos %}
+                                        {% if visto.temporadaId == episodio.temporadaId and visto.episodioId == episodio.id %}
+                                            <script>document.getElementById("i-{{ episodio.temporadaId }}-{{ episodio.id }}").classList.add("visto-ok");</script>
+                                        {% endif %}
+                                      {% endfor %}
+                                  </a>
+                              </td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                      </table>
+                  </div>
+                  {% endfor %}
+              </div>
+          </div>
+    </div>
+
+<style>
+    .capa-midia {
+        max-width: 384px;
+    }
+
+    img {
+        max-width: 330px;
+    }
+    td {
+        text-align: left;
+    }
+    .temp-tab {
+        background: #2c2f33 !important;
+        color: 	#99aab5 !important;
+    }
+    .modal-border {
+        border-color: #2c2f33;
+    }
+    .visto {
+        color: #99aab5;
+        padding-left: 10px;
+    }
+    .visto:hover {
+        color: #ffffff;
+    }
+    .visto-ok {
+        color: #7289da;
+    }
+</style>
+
+{% endblock %}

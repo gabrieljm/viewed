@@ -22,13 +22,6 @@ CREATE TABLE midia (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE temporada (
-    id int(11) NOT NULL AUTO_INCREMENT,
-    midiaId int(11) NOT NULL,
-    PRIMARY KEY (id, midiaId),
-    FOREIGN KEY (midiaId) REFERENCES midia(id)
-);
-
 CREATE TABLE episodio (
     id int(11) NOT NULL AUTO_INCREMENT,
     temporadaId int(11) NOT NULL,

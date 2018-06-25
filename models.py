@@ -14,11 +14,6 @@ class Midia:
         self.sinopse = sinopse
         self.temporadas = temporadas
 
-class Temporada:
-    def __init__(self, id, midiaId):
-        self.id = id
-        self.midiaId = midiaId
-
 class Episodio:
     def __init__(self, midiaId, temporadaId, id, nome):
         self.midiaId = midiaId
@@ -32,6 +27,8 @@ class Favorito:
         self.usuarioId = usuarioId
 
 class Visto:
-    def __init__(self, episodioId, usuarioId):
-        self.episodioId = episodioId
+    def __init__(self, usuarioId, midiaId, temporadaId, episodioId):
         self.usuarioId = usuarioId
+        self.midiaId = midiaId
+        self.temporadaId = temporadaId
+        self.episodioId = episodioId

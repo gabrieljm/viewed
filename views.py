@@ -1,12 +1,13 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
-from models import Midia, Episodio
-from dao import MidiaDao, EpisodioDao, UsuarioDao
+from models import Midia, Episodio, Visto
+from dao import MidiaDao, EpisodioDao, VistoDao, UsuarioDao
 import time
 from helpers import deleta_arquivo, recupera_imagem
 from viewed import db, app
 
 midia_dao = MidiaDao(db)
 episodio_dao = EpisodioDao(db)
+visto_dao = VistoDao(db)
 usuario_dao = UsuarioDao(db)
 
 @app.route('/')
@@ -60,8 +61,21 @@ def editar(id):
         episodios = episodio_dao.listar(id, temporadaId)
         temporadas.append(episodios)
 
+    vistos = visto_dao.buscarPorMidia(session['usuario_logado'], midia.id)
+    print(vistos)
+
     nome_imagem = recupera_imagem(id)
-    return render_template('editar.html', titulo='Editando Mídia', midia=midia, temporadas=temporadas, capa_midia=nome_imagem or 'capa_padrao.jpg')
+
+    if session['tipo_usuario'] == 'A':
+        return render_template('editar.html', titulo='Editando Mídia', midia=midia, temporadas=temporadas, capa_midia=nome_imagem or 'capa_padrao.jpg')
+    return render_template('editarUser.html', titulo=midia.titulo, midia=midia, temporadas=temporadas, vistos=vistos, capa_midia=nome_imagem or 'capa_padrao.jpg')
+
+
+@app.route('/visto/<string:usuarioId>/<string:midiaId>/<string:temporadaId>/<string:id>')
+def visto(usuarioId, midiaId, temporadaId, id):
+    visto = Visto(usuarioId, midiaId, temporadaId, id)
+    visto_dao.marcar_visto(visto)
+    return redirect(url_for('editar', id=midiaId))
 
 
 @app.route('/atualizar', methods=['POST',])
