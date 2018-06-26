@@ -47,9 +47,9 @@
                       <table class="table table-sm table-hover table-dark">
                           <thead>
                             <tr>
-                              <th scope="col">#</th>
+                              <th class="col-episodioId" scope="col">#</th>
                               <th scope="col">Título</th>
-                              <th scope="col">Visto</th>
+                              <th class="col-visto" scope="col">Visto</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -104,6 +104,23 @@
     }
     .visto-ok {
         color: #7289da;
+    }
+    .col-episodioId {
+        width: 50px;
+    }
+    .col-visto {
+        width: 15%;
+    }
+    .active {
+        border: none !important;
+        color: #7289da !important;
+    }
+    .nav-tabs {
+        border-color: #7289da;
+    }
+    .nav-link:hover {
+        border: none !important;
+        color: #7289da !important;
     }
 </style>
 

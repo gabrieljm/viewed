@@ -62,7 +62,7 @@
                       <table class="table table-sm table-hover table-dark">
                           <thead>
                             <tr>
-                              <th scope="col">#</th>
+                              <th class="col-episodioId" scope="col">#</th>
                               <th scope="col">Título</th>
                             </tr>
                           </thead>
@@ -111,7 +111,7 @@
 
                       <h5>Novo episódio</h5>
                       <form action="{{ url_for('criarEpisodio') }}" method="post">
-                        <fieldset class="col-sm">
+                        <fieldset class="col-sm novo-ep">
                             <input type="hidden" name="midiaId" value="{{ midia.id }}">
                             <input type="hidden" name="temporadaId" value="{{ i }}">
                             <div class="row">
@@ -150,6 +150,23 @@
     }
     .modal-border {
         border-color: #2c2f33;
+    }
+    .col-episodioId {
+        width: 50px;
+    }
+    .active {
+        border: none !important;
+        color: #7289da !important;
+    }
+    .nav-tabs {
+        border-color: #7289da;
+    }
+    .nav-link:hover {
+        border: none !important;
+        color: #7289da !important;
+    }
+    .novo-ep {
+        padding-left: 0;
     }
 </style>
 
