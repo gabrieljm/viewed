@@ -2,7 +2,7 @@ from models import Usuario, Midia, Episodio, Favorito, Visto
 
 SQL_DELETA_MIDIA = 'DELETE from midia where id = %s'
 SQL_MIDIA_POR_ID = 'SELECT * from midia where id = %s'
-SQL_USUARIO_POR_LOGIN = 'SELECT * from usuario where login = %s'
+SQL_USUARIO_POR_LOGIN = 'SELECT nome, login, senha, tipo from usuario where login = %s'
 SQL_ATUALIZA_MIDIA = 'UPDATE midia SET titulo=%s, genero=%s, ano=%s, sinopse=%s, temporadas=%s where id = %s'
 SQL_BUSCA_MIDIAS = 'SELECT * from midia'
 SQL_CRIA_MIDIA = 'INSERT into midia (titulo, genero, ano, sinopse, temporadas) values (%s, %s, %s, %s, %s)'
@@ -16,6 +16,7 @@ SQL_BUSCA_VISTO = 'SELECT * FROM visto WHERE usuarioId=%s AND midiaId=%s AND tem
 SQL_BUSCA_VISTO_POR_TEMPORADA = 'SELECT * FROM visto WHERE usuarioId=%s AND midiaId=%s AND temporadaId=%s'
 SQL_BUSCA_VISTO_POR_MIDIA = 'SELECT usuarioId, midiaId, temporadaId, episodioId FROM visto WHERE usuarioId=%s AND midiaId=%s'
 SQL_DELETA_VISTO = 'DELETE FROM visto WHERE usuarioId=%s AND midiaId=%s AND temporadaId=%s AND episodioId=%s'
+SQL_REGISTRA_USUARIO = 'INSERT INTO usuario (nome, login, senha, tipo) values (%s, %s, %s, %s)'
 
 
 class MidiaDao:
@@ -151,6 +152,18 @@ class VistoDao:
 class UsuarioDao:
     def __init__(self, db):
         self.__db = db
+
+    def registrar(self, usuario):
+        cursor = self.__db.connection.cursor()
+
+        cursor.execute(SQL_REGISTRA_USUARIO, (
+            usuario.nome,
+            usuario.login,
+            usuario.senha,
+            usuario.tipo
+        ))
+        self.__db.connection.commit()
+        return usuario
 
     def buscar_por_login(self, login):
         cursor = self.__db.connection.cursor()

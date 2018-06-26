@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
-from models import Midia, Episodio, Visto
+from models import Midia, Episodio, Visto, Usuario
 from dao import MidiaDao, EpisodioDao, VistoDao, UsuarioDao
 import time
 from helpers import deleta_arquivo, recupera_imagem
@@ -156,6 +156,17 @@ def autenticar():
     else:
         flash('Usuário inexistente!')
         return redirect(url_for('login'))
+
+
+@app.route('/registrar', methods=['POST',])
+def registrar():
+    nome = request.form['nome']
+    login = request.form['login']
+    senha = request.form['senha']
+    tipo = request.form['tipo']
+    usuario = Usuario(nome, login, senha, tipo)
+    usuario_dao.registrar(usuario)
+    return redirect(url_for('login'))
 
 
 @app.route('/logout')

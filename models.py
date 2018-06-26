@@ -1,8 +1,8 @@
 class Usuario:
-    def __init__(self, login, senha, nome, tipo):
+    def __init__(self, nome, login, senha, tipo):
+        self.nome = nome
         self.login = login
         self.senha = senha
-        self.nome = nome
         self.tipo = tipo
 
 class Midia:
