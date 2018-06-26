@@ -3,11 +3,11 @@
     <a class="btn btn-primary botao" href="{{ url_for('novo') }}">Nova Mídia</a>
     <div class="card-deck">
         {% for midia in midias %}
-            <a href="{{ url_for('editar', id=midia.id) }}">
+            <a class="midia" href="{{ url_for('editar', id=midia.id) }}">
             <div class="card media-card">
                 <img class="card-img-top card-capa" src="{{ url_for('imagem', nome_arquivo=capa_midia[midia.id]) }}" alt="Card image cap">
                 <div class="card-footer">
-                    <!--<small class="text-muted">Last updated 3 mins ago</small>-->
+                    <small class="text-muted">{{ midia.titulo }}</small>
                 </div>
             </div>
                 </a>
@@ -24,6 +24,16 @@
     }
     .card-capa {
         height: 300px;
+    }
+    .midia {
+        font-size: 1.2rem;
+    }
+    .midia:hover {
+        text-decoration: none;
+    }
+    .card-footer {
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
 </style>
 {% endblock %}
