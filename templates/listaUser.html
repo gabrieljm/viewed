@@ -5,6 +5,9 @@
             <a class="midia" href="{{ url_for('editar', id=midia.id) }}">
                 <div class="card media-card">
                     <img class="card-img-top card-capa" src="{{ url_for('imagem', nome_arquivo=capa_midia[midia.id]) }}" alt="Card image cap">
+                    <a href="{{ url_for('favoritar', midiaId=midia.id, usuarioId=session['usuario_logado']) }}">
+                        <i class="favorito fa-heart {% if midia.id in favoritos %}fas{% else %}far{% endif %}"></i>
+                    </a>
                     <div class="card-footer">
                         <small class="text-muted">{{ midia.titulo }}</small>
                     </div>
@@ -23,6 +26,7 @@
     }
     .card-capa {
         height: 300px;
+        position: relative;
     }
     .midia {
         font-size: 1.2rem;
@@ -33,6 +37,15 @@
     .card-footer {
         padding-top: 5px;
         padding-bottom: 5px;
+    }
+    .favorito {
+        color: #7289da;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+    .favorito:hover {
+        text-shadow: 0px 0px 3px #fff;
     }
 </style>
 {% endblock %}

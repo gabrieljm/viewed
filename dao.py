@@ -17,6 +17,10 @@ SQL_BUSCA_VISTO_POR_TEMPORADA = 'SELECT * FROM visto WHERE usuarioId=%s AND midi
 SQL_BUSCA_VISTO_POR_MIDIA = 'SELECT usuarioId, midiaId, temporadaId, episodioId FROM visto WHERE usuarioId=%s AND midiaId=%s'
 SQL_DELETA_VISTO = 'DELETE FROM visto WHERE usuarioId=%s AND midiaId=%s AND temporadaId=%s AND episodioId=%s'
 SQL_REGISTRA_USUARIO = 'INSERT INTO usuario (nome, login, senha, tipo) values (%s, %s, %s, %s)'
+SQL_ADICIONA_FAVORITO = 'INSERT INTO favorito (midiaId, usuarioId) values (%s, %s)'
+SQL_REMOVE_FAVORITO = 'DELETE FROM favorito WHERE midiaId = %s AND usuarioId = %s'
+SQL_BUSCA_FAVORITOS_POR_MIDIA = 'SELECT midiaId FROM favorito WHERE usuarioId = %s'
+SQL_BUSCA_FAVORITO = 'SELECT * FROM favorito WHERE midiaId = %s and usuarioId = %s'
 
 
 class MidiaDao:
@@ -149,6 +153,40 @@ class VistoDao:
         return vistos
 
 
+class FavoritoDao:
+    def __init__(self, db):
+        self.__db = db
+
+    def favoritar(self, favorito):
+        cursor = self.__db.connection.cursor()
+
+        cursor.execute(SQL_BUSCA_FAVORITO, (
+            favorito.midiaId,
+            favorito.usuarioId
+        ))
+        favoritoExiste = cursor.fetchone()
+        if favoritoExiste:
+            cursor.execute(SQL_REMOVE_FAVORITO, (
+                favorito.midiaId,
+                favorito.usuarioId
+            ))
+        else:
+            cursor.execute(SQL_ADICIONA_FAVORITO, (
+                favorito.midiaId,
+                favorito.usuarioId
+            ))
+        self.__db.connection.commit()
+
+    def buscar(self, usuarioId):
+        cursor = self.__db.connection.cursor()
+        cursor.execute(SQL_BUSCA_FAVORITOS_POR_MIDIA, (usuarioId,))
+        favoritos = traduz_favoritos(cursor.fetchall())
+
+        print(favoritos)
+
+        return favoritos
+
+
 class UsuarioDao:
     def __init__(self, db):
         self.__db = db
@@ -189,6 +227,12 @@ def traduz_vistos(vistos):
     def cria_visto_com_tupla(tupla):
         return Visto(tupla[0], tupla[1], tupla[2], tupla[3])
     return list(map(cria_visto_com_tupla, vistos))
+
+
+def traduz_favoritos(favoritos):
+    def cria_midiaId_com_tupla(tupla):
+        return tupla[0]
+    return list(map(cria_midiaId_com_tupla, favoritos))
 
 
 def traduz_usuario(tupla):

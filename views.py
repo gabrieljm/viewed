@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
-from models import Midia, Episodio, Visto, Usuario
-from dao import MidiaDao, EpisodioDao, VistoDao, UsuarioDao
+from models import Midia, Episodio, Visto, Favorito, Usuario
+from dao import MidiaDao, EpisodioDao, VistoDao, FavoritoDao, UsuarioDao
 import time
 from helpers import deleta_arquivo, recupera_imagem
 from viewed import db, app
@@ -8,6 +8,7 @@ from viewed import db, app
 midia_dao = MidiaDao(db)
 episodio_dao = EpisodioDao(db)
 visto_dao = VistoDao(db)
+favorito_dao = FavoritoDao(db)
 usuario_dao = UsuarioDao(db)
 
 @app.route('/')
@@ -19,9 +20,11 @@ def index():
     for item in lista:
         nome_imagem[item.id] = recupera_imagem(item.id)
 
+    favoritos = favorito_dao.buscar(session['usuario_logado'])
+
     if session['tipo_usuario'] == 'A':
-        return render_template('lista.html', titulo='Mídias', midias=lista, capa_midia=nome_imagem or 'capa_padrao.jpg')
-    return render_template('listaUser.html', titulo='Mídias', midias=lista, capa_midia=nome_imagem or 'capa_padrao.jpg')
+        return render_template('lista.html', titulo='Seriados', midias=lista, capa_midia=nome_imagem or 'capa_padrao.jpg')
+    return render_template('listaUser.html', titulo='Seriados', midias=lista, favoritos=favoritos, capa_midia=nome_imagem or 'capa_padrao.jpg')
 
 
 @app.route('/novo')
@@ -62,7 +65,6 @@ def editar(id):
         temporadas.append(episodios)
 
     vistos = visto_dao.buscarPorMidia(session['usuario_logado'], midia.id)
-    print(vistos)
 
     nome_imagem = recupera_imagem(id)
 
@@ -76,6 +78,13 @@ def visto(usuarioId, midiaId, temporadaId, id):
     visto = Visto(usuarioId, midiaId, temporadaId, id)
     visto_dao.marcar_visto(visto)
     return redirect(url_for('editar', id=midiaId))
+
+
+@app.route('/favoritar/<string:midiaId>/<string:usuarioId>')
+def favoritar(midiaId, usuarioId):
+    favorito = Favorito(midiaId, usuarioId)
+    favorito_dao.favoritar(favorito)
+    return redirect(url_for('index'))
 
 
 @app.route('/atualizar', methods=['POST',])
