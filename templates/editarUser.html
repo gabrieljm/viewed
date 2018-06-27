@@ -1,5 +1,9 @@
 {% extends "template.html" %}
 {% block conteudo %}
+  <div class="page-header">
+      <h1 class="title">{{ midia.titulo }}</h1>
+  </div>
+
   <div class="container">
       <div class="row" style="margin-bottom: 10px;">
           <figure class="thumb col-sm capa-midia">
@@ -121,6 +125,10 @@
     .nav-link:hover {
         border: none !important;
         color: #7289da !important;
+    }
+    .title {
+        text-align: center;
+        padding-bottom: 15px;
     }
 </style>
 

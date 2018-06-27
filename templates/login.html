@@ -14,12 +14,13 @@
         <i class="fas fa-eye fa-3x nav-logo"></i>
         <h1 class="nav-logo-title">Viewed</h1>
     </div>
+
     <div class="container app-body">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <ul id="messages" class="list_unstyled">
+                <ul id="messages" class="list-unstyled">
                 {% for message in messages %}
-                    <li class="alert alert-success">{{ message }}</li>
+                    <li class="alert">{{ message }}</li>
                 {% endfor %}
                 </ul>
             {% endif %}
@@ -141,6 +142,14 @@
     }
     .modal-border {
         border-color: #2c2f33;
+    }
+    .alert {
+        color: #d04747;
+        text-align: center;
+        margin-bottom: 0
+    }
+    .list-unstyled {
+        margin-bottom: 0;
     }
 </style>
 </html>

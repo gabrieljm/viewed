@@ -15,6 +15,7 @@ usuario_dao = UsuarioDao(db)
 def index():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
+
     lista = midia_dao.listar()
     nome_imagem = {}
     for item in lista:
@@ -37,11 +38,15 @@ def index():
 def novo():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('novo')))
+
     return render_template('novo.html', titulo='Nova Mídia')
 
 
 @app.route('/criar', methods=['POST',])
 def criar():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
     titulo = request.form['titulo']
     genero = request.form['genero']
     ano = request.form['ano']
@@ -63,6 +68,7 @@ def criar():
 def editar(id):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login', proxima=url_for('editar')))
+
     midia = midia_dao.busca_por_id(id)
     temporadas = []
 
@@ -81,6 +87,9 @@ def editar(id):
 
 @app.route('/visto/<string:usuarioId>/<string:midiaId>/<string:temporadaId>/<string:id>')
 def visto(usuarioId, midiaId, temporadaId, id):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
     visto = Visto(usuarioId, midiaId, temporadaId, id)
     visto_dao.marcar_visto(visto)
     return redirect(url_for('editar', id=midiaId))
@@ -88,6 +97,9 @@ def visto(usuarioId, midiaId, temporadaId, id):
 
 @app.route('/favoritar/<string:midiaId>/<string:usuarioId>')
 def favoritar(midiaId, usuarioId):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
     favorito = Favorito(midiaId, usuarioId)
     favorito_dao.favoritar(favorito)
     return redirect(url_for('index'))
@@ -95,6 +107,9 @@ def favoritar(midiaId, usuarioId):
 
 @app.route('/atualizar', methods=['POST',])
 def atualizar():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
     titulo = request.form['titulo']
     genero = request.form['genero']
     ano = request.form['ano']
@@ -115,6 +130,9 @@ def atualizar():
 
 @app.route('/criarEpisodio', methods=['POST',])
 def criarEpisodio():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
     midiaId = request.form['midiaId']
     temporadaId = request.form['temporadaId']
     id = request.form['id']
@@ -126,6 +144,9 @@ def criarEpisodio():
 
 @app.route('/atualizarEpisodio', methods=['POST',])
 def atualizarEpisodio():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
     midiaId = request.form['midiaId']
     temporadaId = request.form['temporadaId']
     id = request.form['id']
@@ -137,15 +158,19 @@ def atualizarEpisodio():
 
 @app.route('/deletarEpisodio/<string:midiaId>/<string:temporadaId>/<string:id>')
 def deletarEpisodio(midiaId, temporadaId, id):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
     episodio_dao.deletar(midiaId, temporadaId, id)
-    flash('O episódio foi removido com sucesso!')
     return redirect(url_for('editar', id=midiaId))
 
 
 @app.route('/deletar/<string:id>')
 def deletar(id):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
     midia_dao.deletar(id)
-    flash('A mídia foi removida com sucesso!')
     return redirect(url_for('index'))
 
 

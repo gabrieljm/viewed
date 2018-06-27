@@ -1,5 +1,9 @@
 {% extends "template.html" %}
 {% block conteudo %}
+  <div class="page-header">
+      <h1 class="title">{{ midia.titulo }}</h1>
+  </div>
+
   <form action="{{ url_for('atualizar') }}" method="post" enctype="multipart/form-data">
       <div class="container">
           <div class="row" style="margin-bottom: 10px;">
@@ -167,6 +171,10 @@
     }
     .novo-ep {
         padding-left: 0;
+    }
+    .title {
+        text-align: center;
+        padding-bottom: 15px;
     }
 </style>
 
