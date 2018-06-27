@@ -5,9 +5,9 @@ CREATE DATABASE viewed;
 USE viewed;
 
 CREATE TABLE usuario (
+    nome varchar(100) not null,
     login varchar(100) NOT NULL,
     senha varchar(100) NOT NULL,
-    nome varchar(100) not null,
     tipo varchar(1) NOT NULL,
     PRIMARY KEY (login)
 );
@@ -24,9 +24,11 @@ CREATE TABLE midia (
 
 CREATE TABLE episodio (
     id int(11) NOT NULL AUTO_INCREMENT,
+    midiaId int(11) NOT NULL,
     temporadaId int(11) NOT NULL,
     nome varchar(100),
-    PRIMARY KEY (id, temporadaId),
+    PRIMARY KEY (id, midiaId, temporadaId),
+    FOREIGN KEY (midiaId) REFERENCES midia(id),
     FOREIGN KEY (temporadaId) REFERENCES temporada(id)
 );
 
@@ -39,9 +41,13 @@ CREATE TABLE favorito (
 );
 
 CREATE TABLE visto (
+    midiaId int(11) NOT NULL,
+    temporadaId int(11) NOT NULL,
     episodioId int(11) NOT NULL,
     usuarioId varchar(100) NOT NULL,
-    PRIMARY KEY (episodioId, usuarioId),
+    PRIMARY KEY (midiaId, temporadaId, episodioId, usuarioId),
+    FOREIGN KEY (midiaId) REFERENCES midia(id),
+    FOREIGN KEY (temporadaId) REFERENCES temporada(id),
     FOREIGN KEY (episodioId) REFERENCES episodio(id),
     FOREIGN KEY (usuarioId) REFERENCES usuario(login)
 );
