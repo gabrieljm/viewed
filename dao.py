@@ -182,8 +182,6 @@ class FavoritoDao:
         cursor.execute(SQL_BUSCA_FAVORITOS_POR_MIDIA, (usuarioId,))
         favoritos = traduz_favoritos(cursor.fetchall())
 
-        print(favoritos)
-
         return favoritos
 
 

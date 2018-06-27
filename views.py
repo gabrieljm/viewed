@@ -22,9 +22,15 @@ def index():
 
     favoritos = favorito_dao.buscar(session['usuario_logado'])
 
+    listaFavoritos = []
+
+    for midia in lista:
+        if midia.id in favoritos:
+            listaFavoritos.append(midia)
+
     if session['tipo_usuario'] == 'A':
         return render_template('lista.html', titulo='Seriados', midias=lista, capa_midia=nome_imagem or 'capa_padrao.jpg')
-    return render_template('listaUser.html', titulo='Seriados', midias=lista, favoritos=favoritos, capa_midia=nome_imagem or 'capa_padrao.jpg')
+    return render_template('listaUser.html', titulo='Seriados', midias=lista, midiasFavoritas=listaFavoritos, favoritos=favoritos, capa_midia=nome_imagem or 'capa_padrao.jpg')
 
 
 @app.route('/novo')
@@ -157,7 +163,6 @@ def autenticar():
             session['usuario_logado'] = usuario.login
             session['nome_usuario'] = usuario.nome
             session['tipo_usuario'] = usuario.tipo
-            flash(usuario.nome + ' logou com sucesso!')
             return redirect(url_for('index'))
         else:
             flash('Senha incorreta!')
@@ -183,7 +188,6 @@ def logout():
     session['usuario_logado'] = None
     session['nome_usuario'] = None
     session['tipo_usuario'] = None
-    flash('Nenhum usuário logado!')
     return redirect(url_for('index'))
 
 

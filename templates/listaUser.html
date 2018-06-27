@@ -1,19 +1,55 @@
 {% extends "template.html" %}
 {% block conteudo %}
-    <div class="card-deck">
-        {% for midia in midias %}
-            <a class="midia" href="{{ url_for('editar', id=midia.id) }}">
-                <div class="card media-card">
-                    <img class="card-img-top card-capa" src="{{ url_for('imagem', nome_arquivo=capa_midia[midia.id]) }}" alt="Card image cap">
-                    <a href="{{ url_for('favoritar', midiaId=midia.id, usuarioId=session['usuario_logado']) }}">
-                        <i class="favorito fa-heart {% if midia.id in favoritos %}fas{% else %}far{% endif %}"></i>
-                    </a>
-                    <div class="card-footer">
-                        <small class="text-muted">{{ midia.titulo }}</small>
-                    </div>
-                </div>
+    <ul class="nav nav-tabs nav-fill" id="midiasTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link tipo-tab active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">
+                <i class="fas fa-tv fa-tab"></i> Catálogo
             </a>
-        {% endfor %}
+        </li>
+        <li class="nav-item">
+            <a class="nav-link tipo-tab" id="fav-tab" data-toggle="tab" href="#fav" role="tab" aria-controls="all" aria-selected="false">
+                <i class="fas fa-heart fa-tab"></i> Favoritos
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="midiasTabContent" style="width: 100%;">
+
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <div class="card-deck">
+                {% for midia in midias %}
+                    <a class="midia" href="{{ url_for('editar', id=midia.id) }}">
+                        <div class="card media-card">
+                            <img class="card-img-top card-capa" src="{{ url_for('imagem', nome_arquivo=capa_midia[midia.id]) }}" alt="Card image cap">
+                            <a href="{{ url_for('favoritar', midiaId=midia.id, usuarioId=session['usuario_logado']) }}">
+                                <i class="favorito fa-heart {% if midia.id in favoritos %}fas{% else %}far{% endif %}"></i>
+                            </a>
+                            <div class="card-footer">
+                                <small class="text-muted">{{ midia.titulo }}</small>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="fav" role="tabpanel" aria-labelledby="fav-tab">
+            <div class="card-deck">
+                {% for midia in midiasFavoritas %}
+                    <a class="midia" href="{{ url_for('editar', id=midia.id) }}">
+                        <div class="card media-card">
+                            <img class="card-img-top card-capa" src="{{ url_for('imagem', nome_arquivo=capa_midia[midia.id]) }}" alt="Card image cap">
+                            <a href="{{ url_for('favoritar', midiaId=midia.id, usuarioId=session['usuario_logado']) }}">
+                                <i class="favorito fa-heart {% if midia.id in favoritos %}fas{% else %}far{% endif %}"></i>
+                            </a>
+                            <div class="card-footer">
+                                <small class="text-muted">{{ midia.titulo }}</small>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
 <style>
     .media-card {
@@ -46,6 +82,34 @@
     }
     .favorito:hover {
         text-shadow: 0px 0px 3px #fff;
+    }
+    .tipo-tab {
+        background: #2c2f33 !important;
+        color: 	#99aab5 !important;
+    }
+    .active {
+        border: none !important;
+        border-bottom: 1px solid #7289da !important;
+        color: #7289da !important;
+    }
+    .nav-tabs {
+        border-bottom: none;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 70px;
+        border-top: 1px solid #23272a;
+    }
+    .nav-link:hover {
+        border: 1px solid #2c2f33 !important;
+        color: #7289da !important;
+    }
+    .card-deck {
+        position: absolute;
+        top: 130px;
+    }
+    .fa-tab {
+        padding-right: 10px;
     }
 </style>
 {% endblock %}
